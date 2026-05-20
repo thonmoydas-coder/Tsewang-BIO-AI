@@ -124,3 +124,11 @@ async function* readSseStream(body) {
     }
   }
 }
+
+// Function to clear splash screen and load the main view
+function enterApp() {
+  const splash = document.getElementById('splash-screen');
+  if (splash) {
+    splash.classList.add('hidden');
+  }
+}
