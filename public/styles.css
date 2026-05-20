@@ -369,29 +369,7 @@ body {
   animation: snowfall linear infinite;
 }
 
-/* Countdown styles already added earlier; ensure it integrates */
-.countdown-container {
-  background: white;
-  border: 2px solid #ffb6c1;
-  border-radius: 16px;
-  padding: 15px;
-  text-align: center;
-  margin: 20px auto;
-  max-width: 600px;
-  box-shadow: 0 8px 20px rgba(255, 182, 193, 0.2);
-}
-.countdown-container h3 {
-  margin: 0 0 8px 0;
-  color: #ff69b4;
-  font-size: 0.9rem;
-  letter-spacing: 1px;
-}
-#countdown-timer {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #6272a4;
-  font-family: monospace;
-}
+/* (Countdown removed) */
 
 /* Kawaii Message Bubbles */
 .message {

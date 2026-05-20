@@ -445,11 +445,7 @@
 </div>
 
 <div class="app-container">
-  <div class="countdown-container">
-    <h3>⏰ COUNTDOWN TO EXAM (8AM EST) ⏰</h3>
-    <div id="countdown-timer">00d 00h 00m 00s</div>
-    <div class="credit-tag">Made with 💗 by Thonmoy Das</div>
-  </div>
+  
 
 <!-- Falling petals -->
 <div class="petal-wrap" id="petals"></div>
@@ -467,10 +463,7 @@
     <div class="by-line">Soft study vibes, crisp review energy.</div>
   </header>
 
-  <div class="countdown-container">
-    <h3>⏰ AP BIO EXAM COUNTDOWN ⏰</h3>
-    <div id="countdown-timer">Calculating cram time...</div>
-  </div>
+  
 
   <section class="study-zones">
     <div class="study-card">
@@ -616,16 +609,7 @@
   window.addEventListener('load', () => {
     setGreeting();
     const trigger = document.getElementById('heart-trigger');
-    if (trigger) {
-      trigger.addEventListener('click', () => showHeartBurst(24));
-    }
-    setTimeout(() => {
-      const splash = document.getElementById('app-splash-screen');
-      if (splash) splash.classList.add('fade-out');
-      setTimeout(() => {
-        if (splash && splash.parentNode) splash.parentNode.removeChild(splash);
-      }, 800);
-    }, 1800);
+    if (trigger) trigger.addEventListener('click', () => showHeartBurst(24));
   });
 
   let youtubeMusicStarted = false;
