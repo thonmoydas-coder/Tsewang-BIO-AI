@@ -228,18 +228,18 @@ body {
   cursor: not-allowed;
 }
 
-/* Entrance Splash Screen Overlay - Locked Fullscreen */
+/* Fullscreen Loading Overlay */
 #splash-screen {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
-  background: linear-gradient(135deg, #fff5f7 0%, #ffe3e8 100%) !important; /* Matches your cute light pink theme */
+  background: linear-gradient(135deg, #fff5f7 0%, #ffe3e8 100%) !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  z-index: 999999 !important; /* Sits over everything else on earth */
+  z-index: 999999 !important;
   opacity: 1;
   visibility: visible;
   transition: opacity 0.5s ease, visibility 0.5s ease;
@@ -260,46 +260,82 @@ body {
 .splash-title {
   font-size: 2.2rem;
   color: #ff69b4;
-  margin-bottom: 15px;
-  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.splash-subtitle {
+  font-size: 1rem;
+  color: #db7093;
+  margin-bottom: 20px;
+  font-style: italic;
 }
 
 .splash-question {
-  font-size: 1.2rem;
-  color: #64748b;
-  margin-bottom: 30px;
-  font-weight: bold;
-}
-
-.splash-buttons {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-}
-
-.splash-btn {
-  background: #ff69b4;
-  color: white;
-  border: none;
-  padding: 12px 30px;
   font-size: 1.1rem;
+  color: #64748b;
+  margin-bottom: 15px;
+}
+
+.loading-bar-container {
+  width: 100%;
+  background: rgba(255, 182, 193, 0.2);
+  border-radius: 10px;
+  height: 12px;
+  overflow: hidden;
+  border: 1px solid #ffb6c1;
+}
+
+#loading-progress {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #ff69b4, #ffb6c1);
+  box-shadow: 0 0 8px rgba(255, 105, 180, 0.6);
+  transition: width 0.1s linear;
+}
+
+#loading-status {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: #ff69b4;
   font-weight: bold;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  flex: 1;
 }
 
-.splash-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
-}
-
-/* This is the class that hides it perfectly when clicked */
 #splash-screen.hidden {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
+}
+
+/* Glowing Countdown Box */
+.countdown-container {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px dashed #ffb6c1;
+  border-radius: 16px;
+  padding: 15px;
+  text-align: center;
+  margin: 20px auto;
+  max-width: 550px;
+  box-shadow: 0 6px 15px rgba(255, 182, 193, 0.2);
+}
+
+.countdown-container h3 {
+  margin: 0 0 5px 0;
+  color: #ff69b4;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+#countdown-timer {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #4a5568;
+  font-family: monospace;
+}
+
+.credit-tag {
+  font-size: 0.75rem;
+  color: #a0aec0;
+  margin-top: 5px;
 }
     transform: translateY(0);
   }

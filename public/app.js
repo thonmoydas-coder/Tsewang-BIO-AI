@@ -151,31 +151,71 @@ function createPetals() {
 }
 
 // AP Bio Countdown Clock
-function startCountdown() {
-  const examDate = new Date("May 11, 2027 08:00:00").getTime(); // Adjust year if needed!
+// Initialization Progress Bar & EST Countdown Engine
+function initBioBloomEngine() {
+  const progress = document.getElementById('loading-progress');
+  const statusText = document.getElementById('loading-status');
+  const splash = document.getElementById('splash-screen');
+  
+  let width = 0;
+  const phrases = [
+    "Compiling Unit Weightings... 📈",
+    "Calibrating BioBloom ✿... 🌸",
+    "Generating practice cards... 🧬",
+    "Syncing Gemini Brain... 🧠",
+    "Ready to absolute ace this exam! ✨"
+  ];
 
-  setInterval(() => {
-    const now = new Date().getTime();
-    const gap = examDate - now;
+  // 1. Loading Bar Animation
+  const loader = setInterval(() => {
+    width += 2;
+    if (progress) progress.style.width = width + '%';
 
-    const s = 1000, m = s * 60, h = m * 60, d = h * 24;
-    const days = Math.floor(gap / d);
-    const hours = Math.floor((gap % d) / h);
-    const minutes = Math.floor((gap % h) / m);
-    const seconds = Math.floor((gap % m) / s);
-
-    const display = document.getElementById('countdown-timer');
-    if (display) {
-      if (gap < 0) {
-        display.innerText = "🌸 YOU CRUSHED IT! 🌸";
-      } else {
-        display.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-      }
+    if (statusText) {
+      if (width < 25) statusText.innerText = phrases[0];
+      else if (width < 50) statusText.innerText = phrases[1];
+      else if (width < 75) statusText.innerText = phrases[2];
+      else if (width < 95) statusText.innerText = phrases[3];
+      else statusText.innerText = phrases[4];
     }
-  }, 1000);
+
+    if (width >= 100) {
+      clearInterval(loader);
+      setTimeout(() => {
+        if (splash) splash.classList.add('hidden');
+      }, 350);
+    }
+  }, 35);
+
+  // 2. Exact 8:00 AM EST Exam Countdown Timer
+  function startExamTimer() {
+    // Target: May 20, 2026 08:00:00 AM Eastern Daylight Time (UTC-4)
+    const targetEST = new Date("2026-05-20T08:00:00-04:00").getTime();
+
+    setInterval(() => {
+      const now = new Date().getTime();
+      const difference = targetEST - now;
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      const display = document.getElementById('countdown-timer');
+      if (display) {
+        if (difference <= 0) {
+          display.innerText = "🌸 THE EXAM HAS STARTED! YOU CHRUSHED THIS! 🌸";
+        } else {
+          display.innerText = `${days}d ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
+        }
+      }
+    }, 1000);
+  }
+  startExamTimer();
 }
 
+// Boot up engines on load
 window.addEventListener('DOMContentLoaded', () => {
   try { createPetals(); } catch (e) {}
-  try { startCountdown(); } catch (e) {}
+  try { initBioBloomEngine(); } catch (e) {}
 });

@@ -441,13 +441,21 @@
 <div id="splash-screen">
   <div class="splash-card">
     <h1 class="splash-title">🌸 BioBloom AI 🌸</h1>
-    <p class="splash-question">Are you ready to freaking ace the exam?</p>
-    <div class="splash-buttons">
-      <button class="splash-btn" onclick="enterApp()">YES</button>
-      <button class="splash-btn" onclick="enterApp()">YES!</button>
+    <p class="splash-subtitle">By Thonmoy Das</p>
+    <p class="splash-question">Initializing AP Bio Cram Engine...</p>
+    <div class="loading-bar-container">
+      <div id="loading-progress"></div>
     </div>
+    <div id="loading-status">Authorizing variables...</div>
   </div>
 </div>
+
+<div class="app-container">
+  <div class="countdown-container">
+    <h3>⏰ CRAM TIME: COUNTDOWN TO AP EXAM (8AM EST) ⏰</h3>
+    <div id="countdown-timer">Loading precision time...</div>
+    <div class="credit-tag">Made with 💗 by Thonmoy Das</div>
+  </div>
 
 <!-- Falling petals -->
 <div class="petal-wrap" id="petals"></div>
