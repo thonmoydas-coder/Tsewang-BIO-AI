@@ -156,27 +156,24 @@ function initBioBloomEngine() {
   const progress = document.getElementById('loading-progress');
   const statusText = document.getElementById('loading-status');
   const splash = document.getElementById('splash-screen');
-  
   let width = 0;
   const phrases = [
-    "Compiling Unit Weightings... 📈",
-    "Calibrating BioBloom ✿... 🌸",
-    "Generating practice cards... 🧬",
-    "Syncing Gemini Brain... 🧠",
-    "Ready to absolute ace this exam! ✨"
+    "Connecting... ✨",
+    "Calibrating system... 🌸",
+    "Syncing AI Brain... 🧠",
+    "Almost ready... 💗"
   ];
 
-  // 1. Loading Bar Animation
+  // 1. Clean Loading Bar Animation
   const loader = setInterval(() => {
     width += 2;
     if (progress) progress.style.width = width + '%';
 
     if (statusText) {
-      if (width < 25) statusText.innerText = phrases[0];
-      else if (width < 50) statusText.innerText = phrases[1];
-      else if (width < 75) statusText.innerText = phrases[2];
-      else if (width < 95) statusText.innerText = phrases[3];
-      else statusText.innerText = phrases[4];
+      if (width < 30) statusText.innerText = phrases[0];
+      else if (width < 60) statusText.innerText = phrases[1];
+      else if (width < 90) statusText.innerText = phrases[2];
+      else statusText.innerText = phrases[3];
     }
 
     if (width >= 100) {
@@ -185,7 +182,7 @@ function initBioBloomEngine() {
         if (splash) splash.classList.add('hidden');
       }, 350);
     }
-  }, 35);
+  }, 25);
 
   // 2. Exact 8:00 AM EST Exam Countdown Timer
   function startExamTimer() {
@@ -215,7 +212,4 @@ function initBioBloomEngine() {
 }
 
 // Boot up engines on load
-window.addEventListener('DOMContentLoaded', () => {
-  try { createPetals(); } catch (e) {}
-  try { initBioBloomEngine(); } catch (e) {}
-});
+window.addEventListener('DOMContentLoaded', initBioBloomEngine);
