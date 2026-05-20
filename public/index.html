@@ -125,23 +125,35 @@
       font-size: 13px;
     }
 
+    .custom-credit-header {
+      text-align: center;
+      font-size: 1rem;
+      color: #ff69b4;
+      font-weight: 500;
+      margin: 20px auto 18px auto;
+      font-style: italic;
+      letter-spacing: 0.5px;
+    }
+
     /* ── Header ── */
-    </head>
-    <body>
-
-    <div id="splash-screen">
-      <div class="splash-card">
-        <div class="loading-bar-container">
-          <div id="loading-progress"></div>
-        </div>
-        <div id="loading-status">Loading...</div>
-      </div>
-    </div>
-
-    <div class="app-container">
-      <div class="custom-credit-header">
-        Soft study vibes, crisp review energy made by Thonmoy
-      </div>
+    .logo-ring {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blush), var(--lilac));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 10px;
+      box-shadow: 0 4px 20px var(--glow), 0 0 0 4px #fff, 0 0 0 7px var(--lavender);
+      animation: pulse 3s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 4px 20px var(--glow), 0 0 0 4px #fff, 0 0 0 7px var(--lavender); }
+      50%      { box-shadow: 0 4px 30px rgba(192,120,210,.35), 0 0 0 4px #fff, 0 0 0 9px var(--lavender); }
+    }
+    h1 {
       font-family: 'Gochi Hand', cursive;
       font-size: 2rem;
       letter-spacing: .5px;
@@ -445,9 +457,9 @@
 </div>
 
 <div class="app-container">
-  
+  <div class="custom-credit-header">Soft study vibes, crisp review energy made by Thonmoy</div>
 
-<!-- Falling petals -->
+  <!-- Falling petals -->
 <div class="petal-wrap" id="petals"></div>
 <div id="heart-trigger" class="heart-spot" aria-hidden="true"></div>
 <div id="youtube-music-container" style="position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; overflow:hidden;">
@@ -508,6 +520,7 @@
     <a href="https://github.com/" target="_blank">View on GitHub</a> &nbsp;·&nbsp;
     Made with 💗 by Daddy Thonmoy
   </footer>
+</div>
 </div>
 
 <script>
