@@ -228,45 +228,47 @@ body {
   cursor: not-allowed;
 }
 
-/* Entrance Splash Screen Overlay */
+/* Entrance Splash Screen Overlay - Locked Fullscreen */
 #splash-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(135deg, #121214 0%, #1a1a24 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: linear-gradient(135deg, #fff5f7 0%, #ffe3e8 100%) !important; /* Matches your cute light pink theme */
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  z-index: 999999 !important; /* Sits over everything else on earth */
+  opacity: 1;
+  visibility: visible;
   transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
 .splash-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
   padding: 40px;
   border-radius: 24px;
   text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-  max-width: 400px;
+  border: 2px solid #ffb6c1;
+  box-shadow: 0 10px 30px rgba(255, 182, 193, 0.4);
+  max-width: 420px;
   width: 90%;
 }
 
 .splash-title {
-  font-size: 2.5rem;
-  color: #ff79c6;
+  font-size: 2.2rem;
+  color: #ff69b4;
   margin-bottom: 15px;
-  text-shadow: 0 0 10px rgba(255, 121, 198, 0.3);
+  margin-top: 0;
 }
 
 .splash-question {
-  font-size: 1.3rem;
-  color: #f8f8f2;
+  font-size: 1.2rem;
+  color: #64748b;
   margin-bottom: 30px;
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .splash-buttons {
@@ -276,26 +278,28 @@ body {
 }
 
 .splash-btn {
-  background: #ff79c6;
+  background: #ff69b4;
   color: white;
   border: none;
-  padding: 12px 35px;
+  padding: 12px 30px;
   font-size: 1.1rem;
   font-weight: bold;
   border-radius: 50px;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   flex: 1;
 }
 
 .splash-btn:hover {
-  transform: scale(1.08);
-  box-shadow: 0 0 15px rgba(255, 121, 198, 0.6);
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
 }
 
+/* This is the class that hides it perfectly when clicked */
 #splash-screen.hidden {
-  opacity: 0;
-  visibility: hidden;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
     transform: translateY(0);
   }
