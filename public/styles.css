@@ -306,36 +306,40 @@ body {
   pointer-events: none !important;
 }
 
-/* Glowing Countdown Box */
-.countdown-container {
-  background: rgba(255, 255, 255, 0.9);
-  border: 2px dashed #ffb6c1;
-  border-radius: 16px;
-  padding: 15px;
+/* Clean Minimalist Header Styling */
+.custom-credit-header {
   text-align: center;
-  margin: 20px auto;
-  max-width: 550px;
-  box-shadow: 0 6px 15px rgba(255, 182, 193, 0.2);
+  font-size: 1.1rem;
+  color: #ff69b4; /* Cute theme pink */
+  font-weight: 500;
+  margin: 25px auto 15px auto;
+  font-style: italic;
+  letter-spacing: 0.5px;
 }
 
-.countdown-container h3 {
-  margin: 0 0 5px 0;
-  color: #ff69b4;
+/* Keep the progress bar container looking clean */
+.loading-bar-container {
+  width: 100%;
+  background: rgba(255, 182, 193, 0.2);
+  border-radius: 10px;
+  height: 12px;
+  overflow: hidden;
+  border: 1px solid #ffb6c1;
+}
+
+#loading-progress {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #ff69b4, #ffb6c1);
+  box-shadow: 0 0 8px rgba(255, 105, 180, 0.6);
+  transition: width 0.1s linear;
+}
+
+#loading-status {
+  margin-top: 12px;
   font-size: 0.85rem;
-  letter-spacing: 1px;
-}
-
-#countdown-timer {
-  font-size: 1.6rem;
+  color: #ff69b4;
   font-weight: bold;
-  color: #4a5568;
-  font-family: monospace;
-}
-
-.credit-tag {
-  font-size: 0.75rem;
-  color: #a0aec0;
-  margin-top: 5px;
 }
     transform: translateY(0);
   }

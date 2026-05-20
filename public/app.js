@@ -152,10 +152,12 @@ function createPetals() {
 
 // AP Bio Countdown Clock
 // Initialization Progress Bar & EST Countdown Engine
+// Clean Minimalist Loading Engine
 function initBioBloomEngine() {
   const progress = document.getElementById('loading-progress');
   const statusText = document.getElementById('loading-status');
   const splash = document.getElementById('splash-screen');
+  
   let width = 0;
   const phrases = [
     "Connecting... ✨",
@@ -164,7 +166,6 @@ function initBioBloomEngine() {
     "Almost ready... 💗"
   ];
 
-  // 1. Clean Loading Bar Animation
   const loader = setInterval(() => {
     width += 2;
     if (progress) progress.style.width = width + '%';
@@ -182,33 +183,8 @@ function initBioBloomEngine() {
         if (splash) splash.classList.add('hidden');
       }, 350);
     }
-  }, 25);
-
-  // 2. Exact 8:00 AM EST Exam Countdown Timer
-  function startExamTimer() {
-    // Target: May 20, 2026 08:00:00 AM Eastern Daylight Time (UTC-4)
-    const targetEST = new Date("2026-05-20T08:00:00-04:00").getTime();
-
-    setInterval(() => {
-      const now = new Date().getTime();
-      const difference = targetEST - now;
-
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-      const display = document.getElementById('countdown-timer');
-      if (display) {
-        if (difference <= 0) {
-          display.innerText = "🌸 THE EXAM HAS STARTED! YOU CHRUSHED THIS! 🌸";
-        } else {
-          display.innerText = `${days}d ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
-        }
-      }
-    }, 1000);
-  }
-  startExamTimer();
+  }, 20);
+}
 }
 
 // Boot up engines on load
