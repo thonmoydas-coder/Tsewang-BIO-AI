@@ -1,23 +1,25 @@
 {
-  "name": "final-chat-ai-application",
+  "name": "biobloom-ai",
   "version": "1.0.0",
+  "description": "BioBloom ✿ — Kawaii AP Bio study buddy powered by Gemini API",
   "type": "module",
-  "private": true,
-  "engines": {
-    "node": ">=20"
-  },
+  "main": "server.js",
   "scripts": {
-    "dev": "node dev-server.js",
-    "lint": "eslint .",
-    "build": "echo '✓ build OK'"
+    "start": "node server.js",
+    "dev": "node --watch server.js"
   },
   "dependencies": {
-    "@google/genai": "^1.0.0"
+    "@google/generative-ai": "^0.21.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
   },
-  "devDependencies": {
-    "dotenv": "^16.4.0",
-    "eslint": "^9.0.0",
-    "express": "^4.21.0",
-    "globals": "^15.0.0"
-  }
+  "keywords": [
+    "biology",
+    "ai",
+    "gemini",
+    "study-buddy",
+    "kawaii"
+  ],
+  "author": "Daddy Thonmoy",
+  "license": "MIT"
 }

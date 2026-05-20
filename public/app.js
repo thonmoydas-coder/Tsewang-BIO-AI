@@ -20,8 +20,11 @@ const history = [];
 formEl.addEventListener("submit", async (event) => {
   event.preventDefault();
   const text = inputEl.value.trim();
-  if (!text) return;
+  await sendPrompt(text);
+});
 
+async function sendPrompt(text) {
+  if (!text) return;
   inputEl.value = "";
   setBusy(true);
 
@@ -67,7 +70,12 @@ formEl.addEventListener("submit", async (event) => {
     setBusy(false);
     inputEl.focus();
   }
-});
+}
+
+function sendPreset(text) {
+  inputEl.value = text;
+  sendPrompt(text);
+}
 
 function setBusy(busy) {
   inputEl.disabled = busy;

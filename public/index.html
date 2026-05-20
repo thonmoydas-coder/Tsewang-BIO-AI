@@ -1,57 +1,795 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI Chat</title>
-    <link
-      rel="preconnect"
-      href="https://fonts.googleapis.com"
-    />
-    <link
-      rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/styles.css" />
-  </head>
-  <body>
-    <!-- ============================================================
-         CHANGE THE TEXT BELOW to make this app yours.
-         e.g. swap "AI Chat" for "Aviation Co-Pilot" or "Helper Bot".
-         ============================================================ -->
-    <header class="app-header">
-      <h1 class="app-title">AI Chat</h1>
-      <p class="app-subtitle">Built by a student. Powered by Gemini.</p>
-    </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BioBloom ✿ AP Bio AI Buddy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Gochi+Hand&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sakura:    #ffd6e7;
+      --blush:     #ffb3cb;
+      --lavender:  #e8d5f5;
+      --lilac:     #c9a8e8;
+      --cream:     #fff9f5;
+      --petal:     #fff0f7;
+      --text:      #3a2a40;
+      --muted:     #9b7fac;
+      --bubble-ai: #fde8ff;
+      --bubble-u:  #ffe4ee;
+      --accent:    #e07fb0;
+      --glow:      rgba(192,120,210,0.18);
+    }
 
-    <main class="chat" id="chat">
-      <div class="chat-messages" id="messages">
-        <div class="message message-ai">
-          <div class="message-bubble">
-            Hi! Ask me anything to get started.
-          </div>
-        </div>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    /* ── Floating petals background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 15% 20%, rgba(255,182,193,.28) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 60% at 85% 75%, rgba(200,160,230,.22) 0%, transparent 70%),
+        radial-gradient(ellipse 70% 50% at 50% 50%, rgba(255,240,250,.6)  0%, transparent 80%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .petal-wrap {
+      position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0;
+    }
+    .petal {
+      position: absolute;
+      top: -40px;
+      font-size: 1.2rem;
+      opacity: 0;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0%   { opacity: 0; transform: translateY(0) rotate(0deg); }
+      10%  { opacity: .7; }
+      90%  { opacity: .4; }
+      100% { opacity: 0; transform: translateY(110vh) rotate(360deg); }
+    }
+
+    /* ── Layout ── */
+    .app {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 680px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 0 12px 12px;
+    }
+
+    .study-zones {
+      margin: 0 0 18px;
+    }
+
+    .study-card {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(201, 168, 232, 0.5);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 14px 40px rgba(224, 127, 176, 0.12);
+    }
+
+    .study-card h2 {
+      margin: 0 0 12px;
+      font-size: 1rem;
+      letter-spacing: 0.03em;
+    }
+
+    .buttons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+    }
+
+    .study-button {
+      border: none;
+      border-radius: 16px;
+      padding: 12px 14px;
+      background: linear-gradient(135deg, #f48fb1, #c9a8e8);
+      color: white;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .study-button:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 18px 38px rgba(255, 173, 214, .24), 0 0 0 1px rgba(255,255,255,.35);
+      background: linear-gradient(135deg, rgba(255, 220, 245, .96), rgba(249, 229, 255, .98));
+    }
+
+    .study-note {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      padding: 28px 0 16px;
+      position: relative;
+    }
+    .logo-ring {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blush), var(--lilac));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 10px;
+      box-shadow: 0 4px 20px var(--glow), 0 0 0 4px #fff, 0 0 0 7px var(--lavender);
+      animation: pulse 3s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 4px 20px var(--glow), 0 0 0 4px #fff, 0 0 0 7px var(--lavender); }
+      50%      { box-shadow: 0 4px 30px rgba(192,120,210,.35), 0 0 0 4px #fff, 0 0 0 9px var(--lavender); }
+    }
+    h1 {
+      font-family: 'Gochi Hand', cursive;
+      font-size: 2rem;
+      letter-spacing: .5px;
+      background: linear-gradient(130deg, #d060a0, var(--lilac));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .tagline {
+      font-size: .82rem;
+      color: var(--muted);
+      margin-top: 3px;
+      letter-spacing: .3px;
+    }
+    .by-line {
+      font-size: .72rem;
+      color: #c9a8c9;
+      margin-top: 2px;
+      font-style: italic;
+    }
+
+    /* ── Chat window ── */
+    .chat-window {
+      flex: 1;
+      background: rgba(255,255,255,.72);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      border: 1.5px solid rgba(220,190,240,.5);
+      box-shadow: 0 8px 40px rgba(180,130,210,.12);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 18px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--lavender) transparent;
+    }
+    .messages::-webkit-scrollbar { width: 5px; }
+    .messages::-webkit-scrollbar-thumb { background: var(--lavender); border-radius: 99px; }
+
+    /* ── Bubbles ── */
+    .msg { display: flex; align-items: flex-end; gap: 8px; animation: fadeUp .3s ease; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .msg.ai  { align-self: flex-start; flex-direction: row; }
+    .msg.user{ align-self: flex-end;   flex-direction: row-reverse; }
+
+    .avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--blush), var(--lilac));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+      box-shadow: 0 2px 8px var(--glow);
+    }
+    .user .avatar {
+      background: linear-gradient(135deg, var(--sakura), #f0c0d8);
+    }
+
+    .bubble {
+      max-width: 78%;
+      padding: 14px 18px;
+      border-radius: 24px;
+      font-size: .95rem;
+      line-height: 1.65;
+      position: relative;
+      word-break: break-word;
+      box-shadow: 0 8px 18px rgba(192, 120, 210, .08);
+    }
+    .ai .bubble {
+      background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,249,244,.98));
+      border: 1px solid rgba(245, 223, 237, .9);
+      border-bottom-left-radius: 6px;
+      color: var(--text);
+    }
+    .user .bubble {
+      background: linear-gradient(180deg, rgba(255, 236, 244, .98), rgba(255, 239, 246, .98));
+      border: 1px solid rgba(255, 221, 234, .92);
+      border-bottom-right-radius: 6px;
+      color: var(--text);
+    }
+
+    .bubble strong { color: var(--accent); }
+
+    .typing-dots {
+      display: flex;
+      gap: 8px;
+      padding: 8px 0 4px;
+    }
+    .typing-dots span {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #f4b8e0;
+      opacity: .92;
+      animation: bounce-dot 1s infinite ease-in-out;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.75);
+    }
+    .typing-dots span:nth-child(2) { animation-delay: .15s; }
+    .typing-dots span:nth-child(3) { animation-delay: .3s; }
+    @keyframes bounce-dot {
+      0%, 100% { transform: translateY(0); opacity: .85; }
+      50% { transform: translateY(-8px); opacity: 1; }
+    }
+
+    .msg.user { animation: slideInRight .35s ease forwards; }
+    .msg.ai   { animation: slideInLeft .35s ease forwards; }
+    @keyframes slideInRight { from { opacity: 0; transform: translateX(22px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes slideInLeft  { from { opacity: 0; transform: translateX(-22px); } to { opacity: 1; transform: translateX(0); } }
+
+    .greeting-line {
+      margin-top: 10px;
+      font-size: 1rem;
+      color: #8a4b9f;
+      letter-spacing: .2px;
+      opacity: .96;
+    }
+
+    .heart-spot {
+      position: fixed;
+      top: 22px;
+      right: 22px;
+      width: 40px;
+      height: 40px;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .splash-screen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, rgba(255, 239, 247, .98), rgba(246, 226, 255, .94));
+      z-index: 9999;
+      opacity: 1;
+      pointer-events: all;
+      animation: splashFadeIn 1s ease forwards;
+    }
+    .splash-card {
+      text-align: center;
+      padding: 30px 36px;
+      border-radius: 32px;
+      background: rgba(255, 255, 255, .96);
+      box-shadow: 0 40px 120px rgba(217, 143, 246, .20);
+      border: 1px solid rgba(255, 255, 255, .78);
+    }
+    .splash-flower {
+      font-size: 4rem;
+      margin-bottom: 16px;
+      animation: floatFlower 1.8s ease-in-out infinite alternate;
+    }
+    .splash-card p {
+      margin: 0;
+      font-size: 1rem;
+      color: #8f5fa3;
+      letter-spacing: .4px;
+    }
+    @keyframes splashFadeIn { from { opacity: 0; transform: scale(.98); } to { opacity: 1; transform: scale(1); } }
+    .splash-screen.fade-out { animation: splashFadeOut .7s ease forwards; }
+    @keyframes splashFadeOut { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
+    @keyframes floatFlower { to { transform: translateY(-8px); } }
+
+    .heart-burst {
+      position: fixed;
+      pointer-events: none;
+      width: 24px;
+      height: 24px;
+      font-size: 1.2rem;
+      opacity: 0;
+      animation: burstFloat 1.6s ease forwards;
+      z-index: 10000;
+    }
+    @keyframes burstFloat {
+      0% { opacity: 1; transform: translateY(0) scale(.9); }
+      100% { opacity: 0; transform: translateY(-140px) scale(1.35); }
+    }
+
+    /* ── Welcome card ── */
+    .welcome {
+      background: linear-gradient(135deg, rgba(255,214,231,.5), rgba(232,213,245,.5));
+      border: 1px solid rgba(201,168,232,.4);
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: .87rem;
+      color: var(--muted);
+      line-height: 1.6;
+      text-align: center;
+    }
+    .welcome span { font-size: 1.1rem; display: block; margin-bottom: 4px; }
+
+    /* ── Suggestions ── */
+    .suggestions {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      padding: 4px 18px 14px;
+    }
+    .chip {
+      background: rgba(255,255,255,.85);
+      border: 1.5px solid var(--lavender);
+      border-radius: 99px;
+      padding: 5px 13px;
+      font-size: .78rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .2s;
+      font-family: 'Nunito', sans-serif;
+    }
+    .chip:hover { background: var(--lavender); color: var(--text); transform: translateY(-1px); }
+
+    /* ── Input bar ── */
+    .input-bar {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 12px 14px;
+      border-top: 1.5px solid rgba(220,190,240,.35);
+      background: rgba(255,255,255,.6);
+    }
+    #user-input {
+      flex: 1;
+      border: 1.5px solid var(--lavender);
+      border-radius: 99px;
+      padding: 10px 18px;
+      font-size: .92rem;
+      font-family: 'Nunito', sans-serif;
+      background: rgba(255,255,255,.9);
+      color: var(--text);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      resize: none;
+    }
+    #user-input::placeholder { color: #c8aad8; }
+    #user-input:focus { border-color: var(--lilac); box-shadow: 0 0 0 3px rgba(201,168,232,.2); }
+
+    #send-btn {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--lilac));
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      box-shadow: 0 3px 12px var(--glow);
+      transition: transform .15s, box-shadow .15s;
+      flex-shrink: 0;
+    }
+    #send-btn:hover  { transform: scale(1.08); box-shadow: 0 5px 18px var(--glow); }
+    #send-btn:active { transform: scale(.95); }
+    #send-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+    .music-toggle {
+      width: 42px; height: 42px; border-radius: 50%;
+      border: none; background: rgba(255,255,255,.88);
+      color: var(--accent); font-size: 1rem;
+      cursor: pointer; display: flex;
+      align-items: center; justify-content: center;
+      box-shadow: 0 3px 10px rgba(139,92,204,.18);
+      transition: transform .15s, background .15s, color .15s;
+      flex-shrink: 0;
+    }
+    .music-toggle:hover { transform: scale(1.08); background: rgba(242,223,249,.95); }
+    .music-toggle.active { background: linear-gradient(135deg, var(--accent), var(--lilac)); color: #fff; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      font-size: .68rem;
+      color: #d0a8d8;
+      padding: 10px 0 4px;
+      letter-spacing: .3px;
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.65rem; }
+      .bubble { max-width: 88%; font-size: .88rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loading splash -->
+<div class="splash-screen" id="app-splash-screen">
+  <div class="splash-card">
+    <div class="splash-flower">✿</div>
+    <p>BioBloom ✿ Initializing study vibes for Tsewang...</p>
+  </div>
+</div>
+
+<!-- Falling petals -->
+<div class="petal-wrap" id="petals"></div>
+<div id="heart-trigger" class="heart-spot" aria-hidden="true"></div>
+<div id="youtube-music-container" style="position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; overflow:hidden;">
+  <div id="youtube-player"></div>
+</div>
+
+<div class="app">
+  <header>
+    <div class="logo-ring">🌸</div>
+    <h1>BioBloom ✿</h1>
+    <div class="greeting-line" id="greeting-title">Nice little AI I made for my sexy girlll to ace her AP by TD.</div>
+    <div class="tagline">Cute, concise, and made with love for Tsewang.</div>
+    <div class="by-line">Soft study vibes, crisp review energy.</div>
+  </header>
+
+  <section class="study-zones">
+    <div class="study-card">
+      <h2>Study zones</h2>
+      <div class="buttons-grid">
+        <button class="study-button" type="button" onclick="sendPreset('Give me a short unit-by-unit review for AP Biology Unit 1, with 3 key points each.')">Unit 1 Review</button>
+        <button class="study-button" type="button" onclick="sendPreset('Give me a short unit-by-unit review for AP Biology Unit 2, with 3 key points each.')">Unit 2 Review</button>
+        <button class="study-button" type="button" onclick="sendPreset('Give me a short unit-by-unit review for AP Biology Unit 3, with 3 key points each.')">Unit 3 Review</button>
+        <button class="study-button" type="button" onclick="sendPreset('Give me a quick AP Biology MCQ practice set with 3 questions and answers.')">MCQ Practice</button>
+        <button class="study-button" type="button" onclick="sendPreset('Give me 2 AP Biology FRQ-style prompts with quick scoring hints.')">FRQ Practice</button>
+        <button class="study-button" type="button" onclick="sendPreset('Let’s play a mini biology game with 3 quick challenge questions and a scoring prompt.')">Bio Game</button>
       </div>
+      <p class="study-note">Tap one for a fast cram review, practice set, FRQ help, or bio mini-game.</p>
+    </div>
+  </section>
 
-      <form class="composer" id="composer" autocomplete="off">
-        <input
-          class="composer-input"
-          id="composer-input"
-          type="text"
-          placeholder="Type a message..."
-          required
-        />
-        <button class="composer-send" id="composer-send" type="submit">
-          Send
-        </button>
-      </form>
-    </main>
+  <div class="chat-window">
+    <div class="messages" id="messages">
+      <div class="welcome">
+        <span>🌷 Hello Tsewang! I'm BioBloom~</span>
+        I’m your short, cute AP Bio cram buddy. Ask for unit review, MCQ practice, FRQ prompts, or a quick biology mini-game! ˙˚ʚ(´◡`)ɞ˚˙
+      </div>
+    </div>
 
-    <script type="module" src="/app.js"></script>
-  </body>
+    <div class="suggestions" id="chips">
+      <button class="chip" onclick="sendChip(this)">🧬 Explain DNA replication</button>
+      <button class="chip" onclick="sendChip(this)">🌿 What is photosynthesis?</button>
+      <button class="chip" onclick="sendChip(this)">🦠 Prokaryote vs eukaryote</button>
+      <button class="chip" onclick="sendChip(this)">💡 Give me a study tip!</button>
+      <button class="chip" onclick="sendPreset('Give me a quick AP Bio mini-game challenge with 3 questions.')">🕹️ Mini bio game</button>
+    </div>
+
+    <div class="input-bar">
+      <input id="user-input" type="text" placeholder="Ask BioBloom anything~ 🌸" autocomplete="off" />
+      <button id="music-toggle-btn" class="music-toggle" type="button" onclick="toggleMusic()" title="Toggle background music">🔊</button>
+      <button id="send-btn" onclick="sendMessage()" title="Send">✦</button>
+    </div>
+  </div>
+
+  <footer>
+    Powered by <a href="https://ai.google.dev/" target="_blank">Gemini API</a> &nbsp;·&nbsp;
+    <a href="https://github.com/" target="_blank">View on GitHub</a> &nbsp;·&nbsp;
+    Made with 💗 by Daddy Thonmoy
+  </footer>
+</div>
+
+<script>
+  /* ── Falling petals ── */
+  const PETALS = ['🌸','🌷','✿','❀','🌺','💮'];
+  const wrap = document.getElementById('petals');
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = PETALS[Math.floor(Math.random() * PETALS.length)];
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.fontSize = (.7 + Math.random() * .8) + 'rem';
+    p.style.animationDuration = (8 + Math.random() * 14) + 's';
+    p.style.animationDelay    = (Math.random() * 12) + 's';
+    wrap.appendChild(p);
+  }
+
+  /* ── Chat logic ── */
+  const messagesEl = document.getElementById('messages');
+  const inputEl    = document.getElementById('user-input');
+  const sendBtn    = document.getElementById('send-btn');
+  const chipsEl    = document.getElementById('chips');
+
+  const history = [];   // { role, parts }
+
+  function addBubble(role, text) {
+    const wrap = document.createElement('div');
+    wrap.className = 'msg ' + role;
+    const av = document.createElement('div');
+    av.className = 'avatar';
+    av.textContent = role === 'ai' ? '🌸' : '🎀';
+    const bub = document.createElement('div');
+    bub.className = 'bubble';
+    bub.innerHTML = text;
+    wrap.appendChild(av);
+    wrap.appendChild(bub);
+    messagesEl.appendChild(wrap);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return bub;
+  }
+
+  function addTyping() {
+    const wrap = document.createElement('div');
+    wrap.className = 'msg ai';
+    wrap.id = 'typing-indicator';
+    const av = document.createElement('div');
+    av.className = 'avatar';
+    av.textContent = '🌸';
+    const bub = document.createElement('div');
+    bub.className = 'bubble';
+    bub.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+    wrap.appendChild(av);
+    wrap.appendChild(bub);
+    messagesEl.appendChild(wrap);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return wrap;
+  }
+
+  function removeTyping() {
+    const el = document.getElementById('typing-indicator');
+    if (el) el.remove();
+  }
+
+  function setGreeting() {
+    const now = new Date();
+    const hour = now.getHours();
+    const greeting =
+      hour < 12
+        ? 'Good morning, darling scientist! ☀️'
+        : hour < 18
+        ? 'Sweet study afternoon, genius! 🌤'
+        : 'Late night cramming? You’ve got this! 🌙';
+    const title = document.getElementById('greeting-title');
+    if (title) title.textContent = greeting;
+  }
+
+  function showHeartBurst(count = 18) {
+    for (let i = 0; i < count; i += 1) {
+      const burst = document.createElement('div');
+      burst.className = 'heart-burst';
+      burst.textContent = Math.random() > 0.4 ? '💗' : '✿';
+      burst.style.left = `${window.innerWidth * 0.5 + (Math.random() * 180 - 90)}px`;
+      burst.style.top = `${window.innerHeight * 0.3 + (Math.random() * 90 - 45)}px`;
+      burst.style.color = Math.random() > 0.5 ? '#f58fc5' : '#f8c7e6';
+      burst.style.transform = `translate(${(Math.random() - 0.5) * 120}px, 0)`;
+      document.body.appendChild(burst);
+      setTimeout(() => {
+        if (burst.parentNode) burst.parentNode.removeChild(burst);
+      }, 1700);
+    }
+  }
+
+  function celebrateIfCorrect(text) {
+    if (/\b(correct|right|yes|got it|nailed it|perfect|bravo|woohoo)\b/i.test(text)) {
+      showHeartBurst(20);
+    }
+  }
+
+  window.addEventListener('load', () => {
+    setGreeting();
+    const trigger = document.getElementById('heart-trigger');
+    if (trigger) {
+      trigger.addEventListener('click', () => showHeartBurst(24));
+    }
+    setTimeout(() => {
+      const splash = document.getElementById('app-splash-screen');
+      if (splash) splash.classList.add('fade-out');
+      setTimeout(() => {
+        if (splash && splash.parentNode) splash.parentNode.removeChild(splash);
+      }, 800);
+    }, 1800);
+  });
+
+  let youtubeMusicStarted = false;
+  let ytPlayer = null;
+
+  function loadYouTubeAPI() {
+    if (window.YT) return Promise.resolve();
+    return new Promise((resolve) => {
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      tag.onload = () => resolve();
+      document.body.appendChild(tag);
+    });
+  }
+
+  function initYouTubeMusic() {
+    if (youtubeMusicStarted) return;
+    if (!window.YT || !window.YT.Player) return;
+
+    ytPlayer = new YT.Player('youtube-player', {
+      height: '1',
+      width: '1',
+      videoId: 'hbcEvz0SXgQ',
+      playerVars: {
+        autoplay: 1,
+        controls: 0,
+        loop: 1,
+        playlist: 'hbcEvz0SXgQ',
+        modestbranding: 1,
+        rel: 0,
+        showinfo: 0,
+        iv_load_policy: 3,
+        playsinline: 1,
+      },
+      events: {
+        onReady: (event) => {
+          event.target.setVolume(18);
+          event.target.playVideo();
+        },
+        onStateChange: (event) => {
+          if (event.data === YT.PlayerState.ENDED) {
+            event.target.playVideo();
+          }
+        },
+      },
+    });
+
+    youtubeMusicStarted = true;
+  }
+
+  let youtubeMusicEnabled = true;
+  const musicToggleBtn = document.getElementById('music-toggle-btn');
+
+  function updateMusicButton() {
+    if (!musicToggleBtn) return;
+    musicToggleBtn.textContent = youtubeMusicEnabled ? '🔊' : '🔈';
+    musicToggleBtn.classList.toggle('active', youtubeMusicEnabled);
+    musicToggleBtn.title = youtubeMusicEnabled ? 'Music on' : 'Music off';
+  }
+
+  function toggleMusic() {
+    youtubeMusicEnabled = !youtubeMusicEnabled;
+    updateMusicButton();
+    if (!youtubeMusicEnabled && ytPlayer) {
+      ytPlayer.pauseVideo();
+    } else if (youtubeMusicEnabled) {
+      startYouTubeMusic();
+    }
+  }
+
+  async function startYouTubeMusic() {
+    if (!youtubeMusicEnabled) return;
+    if (youtubeMusicStarted && ytPlayer) {
+      ytPlayer.playVideo();
+      return;
+    }
+
+    window.onYouTubeIframeAPIReady = initYouTubeMusic;
+    await loadYouTubeAPI();
+    if (window.YT && window.YT.Player) {
+      initYouTubeMusic();
+    }
+  }
+
+  updateMusicButton();
+
+  function sendChip(btn) {
+    inputEl.value = btn.textContent.replace(/^[^\w]+/, '').trim();
+    chipsEl.style.display = 'none';
+    sendMessage();
+  }
+
+  function sendPreset(text) {
+    inputEl.value = text;
+    chipsEl.style.display = 'none';
+    sendMessage();
+  }
+
+  inputEl.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  });
+
+  async function sendMessage() {
+    await startYouTubeMusic();
+    const text = inputEl.value.trim();
+    if (!text) return;
+    celebrateIfCorrect(text);
+    chipsEl.style.display = 'none';
+    inputEl.value = '';
+    sendBtn.disabled = true;
+
+    addBubble('user', escapeHtml(text));
+    history.push({ role: 'user', parts: [{ text }] });
+
+    const typingEl = addTyping();
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ history: history.slice() })
+      });
+
+      if (!res.ok) throw new Error(`Server error ${res.status}`);
+
+      removeTyping();
+      const aiBub = addBubble('ai', '');
+      let fullText = '';
+
+      /* ── SSE streaming ── */
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop();
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const chunk = line.slice(6);
+            if (chunk === '[DONE]') break;
+            fullText += chunk;
+            aiBub.innerHTML = renderMarkdown(fullText) + '<span style="opacity:.4">▍</span>';
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+          }
+        }
+      }
+      aiBub.innerHTML = renderMarkdown(fullText);
+      history.push({ role: 'model', parts: [{ text: fullText }] });
+
+    } catch (err) {
+      removeTyping();
+      addBubble('ai', '🌸 Oops! Something went wrong — please check your API key or server. <em>(' + err.message + ')</em>');
+    }
+
+    sendBtn.disabled = false;
+    inputEl.focus();
+  }
+
+  /* ── Helpers ── */
+  function escapeHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function renderMarkdown(text) {
+    return text
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g,'<em>$1</em>')
+      .replace(/`(.+?)`/g,'<code style="background:rgba(200,160,230,.18);padding:1px 5px;border-radius:4px;font-size:.88em">$1</code>')
+      .replace(/\n/g,'<br/>');
+  }
+</script>
+</body>
 </html>
