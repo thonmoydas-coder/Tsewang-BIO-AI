@@ -132,3 +132,50 @@ function enterApp() {
     splash.classList.add('hidden');
   }
 }
+
+// Sakura Spawner
+function createPetals() {
+  const petalSymbols = ['🌸', '✨', '🌸', '💮'];
+  setInterval(() => {
+    const petal = document.createElement('div');
+    petal.classList.add('petal');
+    petal.innerText = petalSymbols[Math.floor(Math.random() * petalSymbols.length)];
+    petal.style.left = Math.random() * 100 + 'vw';
+    petal.style.animationDuration = Math.random() * 5 + 5 + 's'; // Between 5s and 10s
+    petal.style.opacity = Math.random() * 0.6 + 0.2;
+    petal.style.fontSize = Math.random() * 15 + 12 + 'px';
+    document.body.appendChild(petal);
+    // Clean up after it falls
+    setTimeout(() => petal.remove(), 11000);
+  }, 800);
+}
+
+// AP Bio Countdown Clock
+function startCountdown() {
+  const examDate = new Date("May 11, 2027 08:00:00").getTime(); // Adjust year if needed!
+
+  setInterval(() => {
+    const now = new Date().getTime();
+    const gap = examDate - now;
+
+    const s = 1000, m = s * 60, h = m * 60, d = h * 24;
+    const days = Math.floor(gap / d);
+    const hours = Math.floor((gap % d) / h);
+    const minutes = Math.floor((gap % h) / m);
+    const seconds = Math.floor((gap % m) / s);
+
+    const display = document.getElementById('countdown-timer');
+    if (display) {
+      if (gap < 0) {
+        display.innerText = "🌸 YOU CRUSHED IT! 🌸";
+      } else {
+        display.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+    }
+  }, 1000);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  try { createPetals(); } catch (e) {}
+  try { startCountdown(); } catch (e) {}
+});

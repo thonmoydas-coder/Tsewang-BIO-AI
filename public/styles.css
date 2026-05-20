@@ -310,3 +310,69 @@ body {
     opacity: 0;
   }
 }
+
+/* Floating Sakura Petals Background */
+@keyframes snowfall {
+  0% { transform: translateY(-10px) translateX(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(100vh) translateX(100px) rotate(360deg); opacity: 0; }
+}
+
+.petal {
+  position: fixed;
+  top: -10px;
+  color: #ffb6c1;
+  font-size: 20px;
+  pointer-events: none;
+  z-index: 0; /* Stays softly in the background */
+  animation: snowfall linear infinite;
+}
+
+/* Countdown styles already added earlier; ensure it integrates */
+.countdown-container {
+  background: white;
+  border: 2px solid #ffb6c1;
+  border-radius: 16px;
+  padding: 15px;
+  text-align: center;
+  margin: 20px auto;
+  max-width: 600px;
+  box-shadow: 0 8px 20px rgba(255, 182, 193, 0.2);
+}
+.countdown-container h3 {
+  margin: 0 0 8px 0;
+  color: #ff69b4;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+#countdown-timer {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #6272a4;
+  font-family: monospace;
+}
+
+/* Kawaii Message Bubbles */
+.message {
+  border-radius: 18px !important;
+  padding: 14px 18px !important;
+  margin-bottom: 12px !important;
+  max-width: 85% !important;
+  line-height: 1.5 !important;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04) !important;
+}
+
+.message.user {
+  background-color: #ff69b4 !important;
+  color: white !important;
+  border-bottom-right-radius: 4px !important;
+  margin-left: auto !important;
+}
+
+.message.assistant {
+  background-color: #ffffff !important;
+  color: #4a4a4a !important;
+  border: 2px solid #ffe3e8 !important;
+  border-bottom-left-radius: 4px !important;
+}
